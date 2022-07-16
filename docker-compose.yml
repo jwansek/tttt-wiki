@@ -1,0 +1,25 @@
+version: '2.2'
+
+services:
+    tttt-wiki:
+        container_name: tttt-wiki
+        env_file:
+            - tttt-wiki.env
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: tttt-mediawiki
+        external_links:
+            - mariadb:mysql
+        ports:
+            - 2001:80
+        volumes:
+            - ./LocalSettings.php:/var/www/html/LocalSettings.php
+            - ./images:/var/www/html/images
+        networks:
+            - db-net
+
+networks:
+    db-net:
+        name: mariadb
+        external: true
